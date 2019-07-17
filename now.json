@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "name": "tech-salaries",
+  "alias": "tech-salaries.nannin.ga",
+  "builds": [{ "src": "package.json", "use": "@now/next" }]
+}
