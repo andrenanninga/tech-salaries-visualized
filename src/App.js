@@ -1,6 +1,5 @@
 import React from "react";
-import * as d3 from "d3";
-import { Loading } from "./components";
+import { Loading, Map } from "./components";
 import { loadData } from "./lib/loadData";
 import "./style.css";
 
@@ -12,7 +11,6 @@ const App = () => {
 
   React.useEffect(() => {
     loadData().then(data => {
-      console.log(data);
       setLoading(false);
       setTechSalaries(data.techSalaries);
       setMedianIncomes(data.medianIncomes);
@@ -27,8 +25,8 @@ const App = () => {
       ) : (
         <>
           <h1>Loaded {techSalaries.length} salaries</h1>
-          <h1>Loaded {medianIncomes.length} incomes</h1>
-          <h1>Loaded {countyNames.length} county names</h1>
+
+          <Map />
         </>
       )}
     </div>
