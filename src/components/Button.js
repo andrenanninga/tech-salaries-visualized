@@ -1,12 +1,24 @@
 import React from "react";
-import css from "astroturf";
+import classnames from "classnames";
 
-css`
-  .button {
-    @apply bg-green-500;
-  }
-`;
-
-const Button = () => <button className="button">Hello world</button>;
+const Button = () => (
+  <button
+    className={classnames(
+      "bg-gray-200",
+      "px-4",
+      "py-1",
+      "rounded-lg",
+      "shadow",
+      "font-semibold",
+      "text-gray-800",
+      "border-2",
+      "border-white",
+      "hover:border-gray-100",
+      "hover:shadow-lg"
+    )}
+  >
+    Hello world
+  </button>
+);
 
 export default Button;
