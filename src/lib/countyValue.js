@@ -1,17 +1,19 @@
 import * as d3 from "d3";
 
-function countyValue(county, techSalaries) {
-  const medianHousehold = this.state.medianIncomes[county.id];
-  const salaries = techSalaries[county.name];
+function countyValue(county, salariesPerCounty, medianIncomes) {
+  const medianIncomesInCounty = medianIncomes[county.id];
+  const salariesInCounty = salariesPerCounty[county.name];
 
-  if (!medianHousehold || !salaries) {
+  if (!medianIncomesInCounty || !salariesInCounty) {
     return null;
   }
 
-  const median = d3.median(salaries, d => d.base_salary);
+  const median = d3.median(salariesInCounty, d => d.baseSalary);
 
   return {
     countyId: county.id,
-    value: median - medianHousehold.medianIncome
+    value: median - medianIncomesInCounty.medianIncome
   };
 }
+
+export { countyValue };

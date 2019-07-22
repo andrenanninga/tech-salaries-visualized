@@ -27,7 +27,7 @@ const cleanSalary = d => {
     city: d.city,
     usState: d.state,
     county: d.county,
-    countyId: d.countyId
+    countyId: d.countyID
   };
 };
 
