@@ -1,32 +1,9 @@
 import React from "react";
-import css from "astroturf";
 import groupBy from "lodash/groupBy";
-import { Loading, Map } from "./components";
+import { Loading, Map, Histogram } from "./components";
 import { loadData } from "./lib/loadData";
 import { countyValue } from "./lib/countyValue";
-import "./style.css";
-
-css`
-  [style*="--aspect-ratio"] > :first-child {
-    width: 100%;
-  }
-  @supports (--custom: property) {
-    [style*="--aspect-ratio"] {
-      position: relative;
-    }
-    [style*="--aspect-ratio"]::before {
-      content: "";
-      display: block;
-      padding-bottom: calc(100% * (var(--aspect-ratio)));
-    }
-    [style*="--aspect-ratio"] > :first-child {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-    }
-  }
-`;
+import "./style/base.css";
 
 const App = () => {
   const [isLoading, setLoading] = React.useState(true);
@@ -78,6 +55,25 @@ const App = () => {
                 y={0}
                 width={500}
                 height={500}
+              />
+            </svg>
+          </div>
+          <div style={{ "--aspect-ratio": 2 / 3 }}>
+            <svg
+              className="w-full h-full"
+              width={500}
+              height={500}
+              viewBox="0 0 500 500"
+              preserveAspectRatio="xMidYMid meet"
+            >
+              <Histogram
+                bins={10}
+                x={0}
+                y={0}
+                width={500}
+                height={500}
+                data={filteredSalaries}
+                value={d => d.baseSalary}
               />
             </svg>
           </div>
