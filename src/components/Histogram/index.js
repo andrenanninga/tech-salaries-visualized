@@ -11,15 +11,16 @@ const Histogram = ({ bins, data, value, x, y, width, height }) => {
 
   const bars = histogram(data);
   const counts = bars.map(d => d.length);
+  const margin = { top: 0, left: 0, bottom: 10, right: 10 };
 
   const widthScale = d3
     .scaleLinear()
     .domain([d3.min(counts), d3.max(counts)])
-    .range([0, width]);
+    .range([margin.left, width - margin.right]);
   const yScale = d3
     .scaleLinear()
     .domain([0, d3.max(bars, d => d.x1)])
-    .range([height - y, 0]);
+    .range([height - y - margin.bottom, margin.top]);
 
   return (
     <g transform={`translate(${x}, ${y})`}>

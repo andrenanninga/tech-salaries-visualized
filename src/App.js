@@ -1,6 +1,6 @@
 import React from "react";
 import groupBy from "lodash/groupBy";
-import { Loading, Map, Histogram } from "./components";
+import { Loading, Map, Histogram, Title, Description } from "./components";
 import { loadData } from "./lib/loadData";
 import { countyValue } from "./lib/countyValue";
 import "./style/base.css";
@@ -12,6 +12,11 @@ const App = () => {
   const [medianIncomes, setMedianIncomes] = React.useState([]);
   const [countyNames, setCountyNames] = React.useState([]);
   const [stateNames, setStateNames] = React.useState([]);
+  const [filter, setFilter] = React.useState({
+    usState: "*",
+    year: "*",
+    jobTitle: "*"
+  });
 
   React.useEffect(() => {
     loadData().then(data => {
@@ -36,7 +41,12 @@ const App = () => {
         <Loading />
       ) : (
         <>
-          <h1>Loaded {techSalaries.length} salaries</h1>
+          <Title data={filteredSalaries} filter={filter} />
+          <Description
+            data={filteredSalaries}
+            historicalData={techSalaries}
+            filter={filter}
+          />
 
           <div style={{ "--aspect-ratio": 2 / 3 }}>
             <svg
