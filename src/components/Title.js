@@ -19,7 +19,7 @@ const Title = ({ data, filter }) => {
   const salary = year === "*" ? `$${mean}/year` : `$${mean} in ${year}`;
 
   return (
-    <h1 className="text-center text-3xl">
+    <h1 className="text-3xl mb-6">
       In {location} a {person} {earn} on average {salary}
     </h1>
   );

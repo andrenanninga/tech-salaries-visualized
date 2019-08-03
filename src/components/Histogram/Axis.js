@@ -10,7 +10,9 @@ const Axis = ({ x = 0, y = 0, scale, ticks }) => {
       .scale(scale)
       .ticks(ticks);
 
-    d3.select(element).call(axis);
+    d3.select(element)
+      .call(axis)
+      .style("font-size", "14px");
   });
 
   return <g transform={`translate(${x}, ${y})`} ref={ref} />;

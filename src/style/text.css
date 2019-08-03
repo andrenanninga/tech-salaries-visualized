@@ -1,0 +1,5 @@
+em {
+  @apply text-blue-600;
+  border-bottom: 2px solid blue;
+  @apply border-blue-200;
+}

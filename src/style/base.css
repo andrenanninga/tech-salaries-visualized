@@ -3,5 +3,6 @@
 @import "tailwindcss/components";
 
 @import "./aspect.css";
+@import "./text.css";
 
 @import "tailwindcss/utilities";

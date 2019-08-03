@@ -11,7 +11,7 @@ const Histogram = ({ bins, data, value, x, y, width, height }) => {
 
   const bars = histogram(data);
   const counts = bars.map(d => d.length);
-  const margin = { top: 0, left: 0, bottom: 10, right: 10 };
+  const margin = { top: 0, left: 0, bottom: 10, right: 55 };
 
   const widthScale = d3
     .scaleLinear()
@@ -28,13 +28,13 @@ const Histogram = ({ bins, data, value, x, y, width, height }) => {
         <Bar
           key={bar.x0}
           percent={(bar.length / data.length) * 100}
-          x={20}
+          x={55}
           y={yScale(bar.x1)}
           width={widthScale(bar.length)}
           height={yScale(bar.x0) - yScale(bar.x1)}
         />
       ))}
-      <Axis x={15} y={0} ticks={bars.length} scale={yScale} />
+      <Axis x={50} y={0} ticks={bars.length} scale={yScale} />
     </g>
   );
 };
