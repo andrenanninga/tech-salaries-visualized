@@ -6,3 +6,4 @@ export * from "./Title";
 export * from "./Description";
 export * from "./MedianLine";
 export * from "./Size";
+export * from "./Select";

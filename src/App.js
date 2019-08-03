@@ -1,6 +1,9 @@
 import React from "react";
 import groupBy from "lodash/groupBy";
 import get from "lodash/get";
+import uniq from "lodash/uniq";
+import every from "lodash/every";
+import capitalize from "lodash/capitalize";
 import {
   Loading,
   Map,
@@ -8,7 +11,8 @@ import {
   MedianLine,
   Title,
   Description,
-  Size
+  Size,
+  Select
 } from "./components";
 import { loadData } from "./lib/loadData";
 import { countyValue } from "./lib/countyValue";
@@ -42,7 +46,15 @@ const App = () => {
     });
   }, []);
 
-  const filteredSalaries = techSalaries;
+  const filteredSalaries = techSalaries.filter(salary =>
+    every([
+      filter.year === "*" ||
+        salary.submitDate.getFullYear() === parseInt(filter.year, 10),
+      filter.usState === "*" || salary.usState === filter.usState,
+      filter.jobTitle === "*" || salary.jobTitle === filter.jobTitle
+    ])
+  );
+
   const salariesPerCounty = groupBy(filteredSalaries, "countyId");
   const medianIncomesByCounty = groupBy(medianIncomes, "countyName");
   const countyValues = countyNames
@@ -50,6 +62,10 @@ const App = () => {
     .filter(x => !!x);
 
   const medianHousehold = get(medianIncomesByUsState, "US.0.medianIncome", 0);
+  const jobTitles = uniq(techSalaries.map(d => d.jobTitle));
+  const years = uniq(
+    techSalaries.map(d => d.submitDate && d.submitDate.getFullYear())
+  );
 
   return (
     <div className="flex flex-col min-h-screen p-16">
@@ -65,6 +81,57 @@ const App = () => {
             medianIncomesByCounty={medianIncomesByCounty}
           />
 
+          <div className="flex my-4">
+            <Select
+              label="Year"
+              className="w-1/3"
+              value={filter.year}
+              onChange={e =>
+                setFilter({
+                  ...filter,
+                  year: e.target.value
+                })
+              }
+            >
+              <option value="*">All</option>
+              {years.map(year => (
+                <option value={year}>{year}</option>
+              ))}
+            </Select>
+            <Select
+              label="Job title"
+              className="w-1/3 mx-2"
+              value={filter.jobTitle}
+              onChange={e =>
+                setFilter({
+                  ...filter,
+                  jobTitle: e.target.value
+                })
+              }
+            >
+              <option value="*">Any</option>
+              {jobTitles.map(title => (
+                <option value={title}>{capitalize(title)}</option>
+              ))}
+            </Select>
+            <Select
+              label="State"
+              className="w-1/3"
+              value={filter.usState}
+              onChange={e =>
+                setFilter({
+                  ...filter,
+                  usState: e.target.value
+                })
+              }
+            >
+              <option value="*">United States of America</option>
+              {stateNames.map(({ code, name }) => (
+                <option value={code}>{name}</option>
+              ))}
+            </Select>
+          </div>
+
           <div className="flex flex-grow flex-col xl:flex-row">
             <div className="xl:w-2/3" style={{ "--aspect-ratio": 2 / 3 }}>
               <svg
@@ -77,8 +144,9 @@ const App = () => {
                 <Map
                   us={topojson}
                   countyValues={countyValues}
+                  countyNames={countyNames}
                   stateNames={stateNames}
-                  zoom={null}
+                  zoom={filter.usState !== "*" ? filter.usState : null}
                   x={0}
                   y={0}
                   width={500}

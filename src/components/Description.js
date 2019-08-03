@@ -111,6 +111,11 @@ class Description extends React.Component {
     );
 
     let best = ordered[ordered.length - 1];
+
+    if (!best || best.length === 0) {
+      return null;
+    }
+
     let countyMedian = medians[best[0].countyId][0].medianIncome;
 
     const byCity = groupBy(best, "city");

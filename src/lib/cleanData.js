@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import find from "lodash/find";
 
-const parseDate = d3.timeParse("%m/%d/%y");
+const parseDate = d3.timeParse("%m/%d/%Y");
 
 const cleanIncome = d => ({
   countyName: d.Name,
@@ -39,7 +39,8 @@ const cleanUsStateName = d => ({
 
 const cleanCounty = d => ({
   id: Number(d.id),
-  name: d.name
+  name: d.name,
+  state: d.state
 });
 
 const parseIncomes = (incomes, countyNames) => {

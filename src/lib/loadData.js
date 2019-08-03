@@ -14,7 +14,7 @@ const loadData = async () =>
     d3.json("/static/data/us.json"),
     d3.csv("/static/data/us-county-names-normalized.csv", cleanCounty),
     d3.csv("/static/data/county-median-incomes.csv", cleanIncome),
-    d3.csv("/static/data/h1bs-2012-2016-shortened.csv", cleanSalary),
+    d3.csv("/static/data/h1bs-2012-2016.csv", cleanSalary),
     d3.tsv("/static/data/us-state-names.tsv", cleanUsStateName)
   ]).then(([us, countyNames, medianIncomes, techSalaries, usStateNames]) => {
     return {

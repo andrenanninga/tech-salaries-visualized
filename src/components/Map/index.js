@@ -5,7 +5,15 @@ import fromPairs from "lodash/fromPairs";
 import find from "lodash/find";
 import { County } from "./County";
 
-const Map = ({ us, countyValues, stateNames, width, height, zoom }) => {
+const Map = ({
+  us,
+  countyValues,
+  stateNames,
+  countyNames,
+  width,
+  height,
+  zoom
+}) => {
   if (!us) {
     return null;
   }
@@ -25,11 +33,11 @@ const Map = ({ us, countyValues, stateNames, width, height, zoom }) => {
 
   if (us && zoom && stateNames) {
     const states = topojson.feature(us, us.objects.states).features;
-    const id = find(stateNames, { code: zoom }).id;
+    const state = find(stateNames, { code: zoom });
 
     projection.scale(width * 4.5);
 
-    const centroid = geoPath.centroid(find(states, { id }));
+    const centroid = geoPath.centroid(find(states, { id: state.id }));
     const translate = projection.translate();
 
     projection.translate([
@@ -41,6 +49,9 @@ const Map = ({ us, countyValues, stateNames, width, height, zoom }) => {
   const usBorder = topojson.mesh(us, us.objects.states, (a, b) => a === b);
   const stateBorders = topojson.mesh(us, us.objects.states, (a, b) => a !== b);
   const counties = topojson.feature(us, us.objects.counties).features;
+  const countyStates = fromPairs(
+    countyNames.map(county => [county.id, county.state])
+  );
 
   const valuePerCounty = fromPairs(
     countyValues.map(d => [d.countyId, d.value])
@@ -55,6 +66,7 @@ const Map = ({ us, countyValues, stateNames, width, height, zoom }) => {
           geoPath={geoPath}
           value={valuePerCounty[county.id]}
           scale={scale}
+          muted={zoom !== null && zoom !== countyStates[county.id]}
         />
       ))}
       <path

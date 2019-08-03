@@ -11,7 +11,6 @@ const MedianLine = ({ data, value, width, height, x, y, median }) => {
 
   const medianValue = median || d3.median(data, value);
   const medianLabel = `Median Household: $${yScale.tickFormat()(median)}`;
-  console.log(medianValue, medianLabel, median);
 
   return (
     <g transform={`translate(${x}, ${yScale(medianValue)})`}>
